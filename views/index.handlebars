@@ -1,0 +1,95 @@
+<div class="jumbotron text-center py-1 mb-2">
+    <h1>Eat-Da-Burger</h1>
+    <img src="/assets/img/burger.png" alt="burger" class="img-fluid" id="burger-pic">
+    <h2>The best site for eating out ;)</h2>
+</div>
+
+<div class="container">
+    {{!-- displaying stored burgers --}}
+    <div id="burgerContainer">
+        <div class="row">
+            {{!-- <div class="col-md-2"></div> --}}
+            <section class="col-md-6" id="availableBurgers">
+                <h2>Available Burgers</h2>
+                {{#each burgers}}
+                {{#unless devoured}}
+                <ul>
+                    <li>
+                        {{burger}}
+                        <button class="devoured btn btn-dark" data-id={{id}}>Devour</button>
+                    </li>
+                </ul>
+                {{/unless}}
+                {{/each}}
+            </section>
+
+            <section class="col-md-6" id="devouredBurgers">
+                <h2>Devoured Burgers</h2>
+                {{#each burgers}}
+                {{#if devoured}}
+                <ul>
+                    <li>
+                        {{burger}}
+                        - <span class="font-italic" id="tasty">Mmmmm, tasty!</span> 
+                    </li>
+                </ul>
+                {{/if}}
+                {{/each}}
+            </section>
+            {{!-- <div class="col-md-2"></div> --}}
+        </div>
+    </div>
+
+    <div id="inputContainer" class="row py-2">
+        <div class="col-md-12">
+        <form>
+            <label for="nameInput" class="font-italic">Enter a person, place, or thing you wish to eat. Then click "Submit".</label>
+            <input type="text" class="form-control" id="nameInput"><br>
+            <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+        </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    //submit button handler. Adds burger to list.
+    $("#submit").on("click", function (event) {
+        event.preventDefault();
+
+        var name = $("#nameInput").val().trim();
+        //console.log(name);
+
+        var newBurger = {
+            name: name
+        };
+
+        //adding burger to database
+        $.ajax("/index", {
+            type: "POST",
+            data: newBurger,
+        }).then(function (data) {
+            console.log("burger added");
+            //reloading page
+            location.reload();
+        });
+    });
+
+    //devour button handler. Sets burger to devoured
+    $(".devoured").on("click", function () {
+        console.log("devouring");
+        var id = $(this).attr("data-id");
+
+        var updateBurger = {
+            id: id
+        };
+
+        //updating burger to devoured
+        $.ajax("/index", {
+            type: "PUT",
+            data: updateBurger
+        }).then(function (data) {
+            console.log("burger updated");
+            location.reload();
+        });
+    });
+</script>

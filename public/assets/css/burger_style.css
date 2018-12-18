@@ -1,0 +1,34 @@
+body {
+    background-color: gold;
+}
+
+.jumbotron {
+    background-color: black;
+    color: white;
+    font-family: 'Lobster', cursive;
+}
+
+#burger-pic {
+    width: 15%;
+    height: auto;
+}
+
+#burgerContainer {
+    font-family: 'Poppins', sans-serif;
+}
+
+#availableBurgers {
+    background-color: skyblue;
+}
+
+#devouredBurgers {
+    background-color: lightgreen;
+}
+
+#inputContainer {
+    background-color: orange;
+}
+
+#tasty {
+    color: red;
+}
